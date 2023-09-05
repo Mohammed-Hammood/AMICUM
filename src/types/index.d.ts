@@ -19,5 +19,12 @@ declare type User = {
 }
 
 
+type SidebarData = {
+	interval: null | number;
+	icons: { [key: string]: string };
+	time: string;
+	images: { id: number, image?: string, title: string }[];
+}
+
 
 declare module 'vue3-circle-progress';

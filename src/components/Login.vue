@@ -18,7 +18,7 @@ import { useAuthStore, useThemStore } from '@/stores';
 
 
 export default {
-    name:"auth-login",
+    name: "auth-login",
     data() {
         return {
             error: null,
@@ -31,7 +31,7 @@ export default {
             return useAuthStore().loading
         }
     },
-    mounted(){
+    mounted() {
         document.body.className = useThemStore().theme;
     },
     methods: {
@@ -135,25 +135,28 @@ form {
             border-radius: 5px;
         }
 
-        input, button {
-            width: 100%;
-            padding: 10px;
-            color: var(--base-white, #fff);
-            outline: 1px solid silver;
-            font-size: 15px;
-            background: var(--main-color, #596c94);
-            border-radius: 5px;
-        }
 
-        button {
-            cursor: pointer; 
-            background-color: var(--base-white, #fff);           
-            color: var(--base-black, #000);
+    }
+}
 
-            &:active {
-                transform: scale(1.01);
-            }
-        }
+input,
+button {
+    width: 100%;
+    padding: 10px;
+    color: var(--base-white, #fff);
+    outline: 1px solid silver;
+    font-size: 15px;
+    background: var(--main-color, #596c94);
+    border-radius: 5px;
+}
+
+button {
+    cursor: pointer;
+    background-color: var(--base-white, #fff);
+    color: var(--base-black, #000);
+
+    &:active {
+        transform: scale(1.01);
     }
 }
 
@@ -166,6 +169,4 @@ form {
     padding: 10px;
     font-size: 16px;
 }
-
-
 </style>

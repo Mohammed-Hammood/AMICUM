@@ -1,47 +1,50 @@
 <template>
-	<div class="wrapper">
-		<div class="header">
-			<div class="datetime">
-				<div class="date">{{ date() }}</div>
-				<div class="time">10:00</div>
+	<div :class="isSidebarOpen ? 'sidebarOpen' : 'sidebar'">
+		<div class="wrapper">
+			<div class="header">
+				<div class="datetime">
+					<div class="date">{{ date() }}</div>
+					<div class="time">{{ time }}</div>
+				</div>
+				<div class="logout">
+					<button @click="logout()" class="logoutBtn">
+						<span>Выход</span>
+						<img :src="icons.LogoutIcon" alt="" class="logoutImg" />
+					</button>
+				</div>
 			</div>
-			<div class="logout">
-				<button @click="logout()">
-					<span>Выход</span>
-					<img :src="icons.LogoutIcon" alt="" />
+			<div class="darkModeWrapper">
+				<button @click="modeToggle()" :class="theme" class="darkModeBtn">
+					<img :src="theme === 'dark' ? icons.SunIcon : icons.MoonIcon" alt="" class="darkModeImg" />
 				</button>
 			</div>
-		</div>
-		<div class="darkModeWrapper">
-			<button @click="modeToggle()" :class="theme">
-				<img :src="theme === 'dark' ? icons.SunIcon : icons.MoonIcon" alt="" />
-			</button>
-		</div>
-		<div v-if="user" class="userPersonalInfoWrapper">
-			<div class="name">{{ user.name }}</div>
-			<div class="birthday">{{ user.birthday }}</div>
-			<div class="tab">Таб №: {{ user.random_number }}</div>
-			<div class="jobTitle">{{ user.position_name }}</div>
-		</div>
-		<div class="cardsWrapper">
-			<div v-for="item in images" class="card" v-bind:key="item.id">
-				<div class="titleWrapper">{{ item.title }}</div>
-				<div class="border">
+			<div v-if="user" class="userPersonalInfoWrapper">
+				<div class="name">{{ user.name }}</div>
+				<div class="birthday">{{ user.birthday }}</div>
+				<div class="tab">Таб №: {{ user.random_number }}</div>
+				<div class="jobTitle">{{ user.position_name }}</div>
+			</div>
+			<div class="cardsWrapper">
+				<div v-for="item in images" class="card" v-bind:key="item.id">
+					<div class="titleWrapper">{{ item.title }}</div>
+					<div class="border">
 
-					<circle-progress :size="70" :fill-color="getProgressColor(item)" :percent="getPercentValue(item)"
-						:border-width="6" :border-bg-width="6" empty-color="#323a53" class="progress" transition="500ms" />
+						<circle-progress :size="70" :fill-color="getProgressColor(item)" :percent="getPercentValue(item)"
+							:border-width="6" :border-bg-width="6" empty-color="#323a53" class="progress"
+							transition="500ms" />
 
-					<div v-if="item.image" class="imageWrapper">
-						<img :src="item.image" :alt="item.title" class="image" />
-					</div>
-					<div v-if="item.id === 3">
-						{{ user.completed_tests }}
-					</div>
-					<div v-if="item.id === 4">
-						<span>{{ user.certification_after }}</span>
-						<span>{{ "" }}</span>
-					</div>
+						<div v-if="item.image" class="imageWrapper">
+							<img :src="item.image" :alt="item.title" class="image" />
+						</div>
+						<div v-if="item.id === 3">
+							{{ user.completed_tests }}
+						</div>
+						<div v-if="item.id === 4">
+							<span>{{ user.certification_after }}</span>
+							<span>{{ "" }}</span>
+						</div>
 
+					</div>
 				</div>
 			</div>
 		</div>
@@ -65,14 +68,24 @@ export default {
 		user: {
 			required: true,
 			type: Object,
+		},
+		isSidebarOpen: {
+			required: true,
+			type: Boolean
 		}
 	},
 	components: {
 		CircleProgress
 	},
-	
-	data() {
+	unmounted() {
+
+		if (this.interval) clearInterval(this.interval);
+
+	},
+	data(): SidebarData {
 		return {
+			interval: null,
+			time: `${new Date().getHours()}:${new Date().getMinutes()}`,
 			icons: {
 				LogoutIcon,
 				MoonIcon,
@@ -82,12 +95,12 @@ export default {
 			images: [
 				{
 					id: 1,
-					image: PenToPaperIcon, 
+					image: PenToPaperIcon,
 					title: 'Инструктаж',
 				},
 				{
 					id: 2,
-					image: PaperTestIcon, 
+					image: PaperTestIcon,
 					title: 'Предсменный экзаменатор',
 				},
 				{
@@ -105,6 +118,15 @@ export default {
 		theme() {
 			return useThemStore().theme
 		},
+	},
+	mounted() {
+		this.interval = setInterval(() => {
+
+			const today = new Date();
+
+			this.time = today.getHours() + ":" + today.getMinutes();
+
+		}, 1000);
 	},
 	methods: {
 		getPercentValue(item: { id: number }): number {
@@ -141,6 +163,7 @@ export default {
 
 			return `${format(t.getDate())}:${format(t.getMonth())}:${format(t.getFullYear())}`
 		},
+
 		logout() {
 			useAuthStore().logout()
 		},
@@ -168,9 +191,10 @@ export default {
 	height: 100%;
 	min-height: 100vmin;
 	max-width: 400px;
-    z-index: 100;
+	z-index: 100;
+
 	@media (max-width: 950px) {
-		box-shadow:none;		
+		box-shadow: none;
 	}
 }
 
@@ -180,6 +204,7 @@ export default {
 	color: var(--base-white, #fff);
 	font-size: 14px;
 	align-items: center;
+	max-height: calc(100% - 77px);
 
 	.datetime {
 		display: flex;
@@ -187,24 +212,24 @@ export default {
 		justify-content: flex-start;
 	}
 
-	.logout {
-		button {
-			display: flex;
-			gap: 5px;
-			font-size: 15px;
-			align-items: center;
+}
 
-			&:active {
-				transform: scale(1.01);
-			}
+.logoutBtn {
+	display: flex;
+	gap: 5px;
+	font-size: 15px;
+	align-items: center;
 
-			img {
-				width: 30px;
-				height: 30px;
-				user-select: none;
-			}
-		}
+	&:active {
+		transform: scale(1.01);
 	}
+
+}
+
+.logoutImg {
+	width: 30px;
+	height: 30px;
+	user-select: none;
 }
 
 .darkModeWrapper {
@@ -214,7 +239,7 @@ export default {
 	align-items: center;
 	color: var(--base-white, #fff);
 
-	button {
+	.darkModeBtn {
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
@@ -235,7 +260,7 @@ export default {
 			margin: 0 13px;
 		}
 
-		img {
+		.darkModeImg {
 			height: 35px;
 			width: 35px;
 			z-index: 1;
@@ -247,6 +272,8 @@ export default {
 		}
 	}
 }
+
+
 
 .userPersonalInfoWrapper {
 	display: flex;
@@ -277,6 +304,17 @@ export default {
 	gap: 10px;
 }
 
+.titleWrapper {
+	display: flex;
+	justify-content: center;
+	font-size: 14px;
+	text-align: center;
+	min-height: 30px;
+	max-width: 100px;
+	line-height: 1.2;
+	margin: 0 auto;
+}
+
 .card {
 	display: flex;
 	flex-direction: column;
@@ -287,39 +325,58 @@ export default {
 	background: #596c94;
 	min-height: 165px;
 
-	.titleWrapper {
-		display: flex;
-		justify-content: center;
-		font-size: 14px;
-		text-align: center;
-		min-height: 30px;
-		max-width: 100px;
-		line-height: 1.2;
-		margin: 0 auto;
-	}
 
-	.border {
-		border-radius: 50%;
-		width: 70px;
-		height: 70px;
-		margin: 0 auto;
-		display: flex;
-		justify-content: center;
-		align-items: center;
 
-		.imageWrapper {
+
+}
+
+.border {
+	border-radius: 50%;
+	width: 70px;
+	height: 70px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.imageWrapper {
+		width: 100%;
+		justify-content: center;
+		display: flex;
+
+		.image {
+			--size: 60px;
 			width: 100%;
-			justify-content: center;
-			display: flex;
-
-			.image {
-				--size: 60px;
-				width: 100%;
-				max-width:  var(--size);
-				max-height: var(--size);
-				overflow: hidden;
-			}
+			max-width: var(--size);
+			max-height: var(--size);
+			overflow: hidden;
 		}
 	}
 }
-</style>
+
+.sidebar,
+.sidebarOpen {
+	width: 100%;
+	height: 100%;
+	min-height: 100vmin;
+	max-width: 400px;
+	background: var(--dark-blue, #323a53);
+	display: flex;
+	justify-content: center;
+
+	@media (max-width: 950px) {
+		margin-top: 70px;
+		left: -950px;
+		position: absolute;
+	}
+}
+
+.sidebarOpen {
+	@media (max-width: 950px) {
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 100;
+		max-width: 100%;
+	}
+}</style>

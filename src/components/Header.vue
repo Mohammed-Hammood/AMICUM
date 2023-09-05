@@ -1,13 +1,13 @@
 <template>
     <header class="header">
-        <div>
+        <div class="buttonWrapper">
             <button type="button" @click="sidebarToggle()" class="burgurBtn">
-                <img :src="sidebarIsOpen ? BarsStaggeredIcon : BarsIcon" alt="" />
+                <img :src="sidebarIsOpen ? BarsStaggeredIcon : BarsIcon" alt="" class="burgurImg" />
             </button>
         </div>
-        <div class="imageWrapper">
-            <router-link to="/">
-                <img src="/amicum_logo.jpg" alt="" />
+        <div class="logoWrapper">
+            <router-link to="/" class="logoLink">
+                <img src="/amicum_logo.jpg" alt="" class="logo"/>
             </router-link>
         </div>
     </header>
@@ -19,7 +19,7 @@ import BarsStaggeredIcon from '@/assets/icons/bars-staggered.svg';
 
 
 export default {
-    name:"layout-header",
+    name: "layout-header",
     props: {
         sidebarIsOpen: {
             type: Boolean,
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style scoped>
-.header {
+.header {   
     display: flex;
     padding: 10px;
     justify-content: space-between;
@@ -50,7 +50,7 @@ export default {
     top: 0;
     left: 0;
     z-index: 99;
-    
+
     @media (max-width: 950px) {
         z-index: 1000;
         backdrop-filter: blur(20px);
@@ -58,18 +58,12 @@ export default {
         box-shadow: 3px -3px 10px 2px rgb(146, 173, 231);
     }
 
-    .imageWrapper {
+    .logoWrapper {
         display: flex;
         justify-content: center;
         align-items: center;
 
-        img {
-            height: 100%;
 
-            @media (max-width: 950px) {
-                height: 50px;
-            }
-        }
     }
 
     .burgurBtn {
@@ -79,15 +73,27 @@ export default {
         align-items: center;
         display: none;
 
-        img {
-            width: 20px;
-            height: 20px;
-            user-select: none;
-        }
 
         @media (max-width: 950px) {
             display: flex;
         }
+    }
+
+    .burgurImg {
+        width: 20px;
+        height: 20px;
+        user-select: none;
+    }
+}
+
+.logo, .logoLink {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 950px) {
+        height: 50px;
     }
 }
 </style>

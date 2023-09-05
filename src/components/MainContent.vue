@@ -15,15 +15,15 @@
 </template>
 
 <script lang="ts">
-import Email from '@/assets/icons/email.svg'
-import Award from '@/assets/icons/award.png'
-import OpenBook from '@/assets/icons/open-book.svg'
+import OpenBook from '@/assets/icons/open-book.svg';
+import Email from '@/assets/icons/email.svg';
+import Award from '@/assets/icons/award.png';
 import Pen from '@/assets/icons/pen.svg';
 import { useAuthStore } from '@/stores';
 
 export default {
     data() {
-        const { user } = useAuthStore()
+        const { user } = useAuthStore();
         return {
             Images: [
                 {
@@ -54,16 +54,16 @@ export default {
     width: 100%;
     display: grid;
     grid-template-columns: minmax(132px, 300px) minmax(132px, 300px);
+    padding: 10px 20px;
     justify-content: center;
     margin: 150px 0 50px 0;
     gap: 50px;
-    padding: 10px;
 
 
     @media (max-width: 1100px) {
         grid-template-columns: minmax(132px, 250px) minmax(132px, 250px);
         gap: minmax(10px, 50px);
-    };
+    }
     @media (max-width: 600px) {
         grid-template-columns: minmax(0, 300px);
         gap: 50px;
@@ -75,7 +75,7 @@ export default {
     background: var(--base-orange, #ef7f1b);
     width: 100%;
     max-width: 300px;
-    max-height: 300px;
+    max-height: 235px;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
