@@ -36,12 +36,12 @@
 						<div v-if="item.image" class="imageWrapper">
 							<img :src="item.image" :alt="item.title" class="image" />
 						</div>
-						<div v-if="item.id === 3">
-							{{ user.completed_tests }}
+						<div v-if="item.id === 3" class="completedTextsWrapper">
+							<span class="number">{{ user.completed_tests }}</span>
 						</div>
-						<div v-if="item.id === 4">
-							<span>{{ user.certification_after }}</span>
-							<span>{{ "" }}</span>
+						<div v-if="item.id === 4" class="certificationAfterWrapper">
+							<span class="number">{{ user.certification_after }}</span>
+							<span class="word">{{ dayWord(user.certification_after) }}</span>
 						</div>
 
 					</div>
@@ -177,6 +177,18 @@ export default {
 		},
 		modeToggle() {
 			useThemStore().themeToggle()
+		},
+		// this function returns the correct single/plural word for the word day in Russian
+		dayWord(number:number):string {
+			const words = ['день', 'дня', 'дней'];	
+			
+			let str = number.toString();
+			let len = str.length;
+
+			if(str[len - 1] === "1")return words[0];
+			if(str[len - 1] === "2" || str[len - 1] === "3" || str[len - 1] === "4")return words[1];
+			
+			return words[2];
 		}
 	}
 }
@@ -304,6 +316,23 @@ export default {
 		font-size: 14px;
 	}
 }
+.certificationAfterWrapper, .completedTextsWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	line-height: 1;
+	.number {
+		font-size: 18px;
+		font-weight: 800;
+		padding:0;
+		margin:0;
+	}
+	.word {
+		font-size: 12px;
+		font-weight: 700;
+	}
+} 
 
 .cardsWrapper {
 	display: grid;
@@ -332,10 +361,6 @@ export default {
 	color: var(--base-white, #fff);
 	background: #596c94;
 	min-height: 165px;
-
-
-
-
 }
 
 .border {
