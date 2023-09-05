@@ -102,7 +102,7 @@ form {
     .loader {
         width: 100%;
         height: 100%;
-        min-height: 207px;
+        min-height: 188px;
         display: flex;
         justify-content: center;
         align-items: center;

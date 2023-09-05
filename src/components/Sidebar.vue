@@ -62,6 +62,7 @@ import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from 'vue3-circle-progress';
 
 
+
 export default {
 	name: 'layout-sidebar',
 	props: {
@@ -72,7 +73,7 @@ export default {
 		isSidebarOpen: {
 			required: true,
 			type: Boolean
-		}
+		},
 	},
 	components: {
 		CircleProgress
@@ -83,9 +84,10 @@ export default {
 
 	},
 	data(): SidebarData {
+
 		return {
 			interval: null,
-			time: `${new Date().getHours()}:${new Date().getMinutes()}`,
+			time: `${this.format(new Date().getHours())}:${this.format(new Date().getMinutes())}`,
 			icons: {
 				LogoutIcon,
 				MoonIcon,
@@ -115,20 +117,26 @@ export default {
 		}
 	},
 	computed: {
+
 		theme() {
 			return useThemStore().theme
 		},
 	},
 	mounted() {
+
 		this.interval = setInterval(() => {
 
 			const today = new Date();
 
-			this.time = today.getHours() + ":" + today.getMinutes();
+			this.time = this.format(today.getHours()) + ":" + this.format(today.getMinutes());
 
 		}, 1000);
 	},
 	methods: {
+		format(time: number): string {
+			return time < 10 ? `0${time}` : `${time}`
+		},
+
 		getPercentValue(item: { id: number }): number {
 			const user = this.$props.user as User;
 
@@ -156,12 +164,12 @@ export default {
 
 			return flag ? colors.orange : colors.green;
 		},
+
 		date(): string {
 			const t = new Date();
 
-			const format = (time: number): string => (time < 10 ? `0${time}` : `${time}`)
-
-			return `${format(t.getDate())}:${format(t.getMonth())}:${format(t.getFullYear())}`
+			//returns local date in this format: DD:MM:YYYY
+			return `${this.format(t.getDate())}:${this.format(t.getMonth())}:${this.format(t.getFullYear())}`
 		},
 
 		logout() {
@@ -379,4 +387,5 @@ export default {
 		z-index: 100;
 		max-width: 100%;
 	}
-}</style>
+}
+</style>
