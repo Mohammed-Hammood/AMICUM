@@ -58,7 +58,7 @@ export default {
     justify-content: center;
     margin: 150px 0 50px 0;
     gap: 50px;
-
+    align-content: start;
 
     @media (max-width: 1100px) {
         grid-template-columns: minmax(132px, 250px) minmax(132px, 250px);
