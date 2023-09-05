@@ -19,6 +19,7 @@ import BarsStaggeredIcon from '@/assets/icons/bars-staggered.svg';
 
 
 export default {
+    name:"layout-header",
     props: {
         sidebarIsOpen: {
             type: Boolean,

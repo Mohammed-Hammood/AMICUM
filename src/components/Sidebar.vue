@@ -24,7 +24,7 @@
 			<div class="jobTitle">{{ user.position_name }}</div>
 		</div>
 		<div class="cardsWrapper">
-			<div v-for="item in images" class="card">
+			<div v-for="item in images" class="card" v-bind:key="item.id">
 				<div class="titleWrapper">{{ item.title }}</div>
 				<div class="border">
 
@@ -60,7 +60,7 @@ import CircleProgress from 'vue3-circle-progress';
 
 
 export default {
-	name: 'Sidebar',
+	name: 'layout-sidebar',
 	props: {
 		user: {
 			required: true,

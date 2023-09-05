@@ -3,7 +3,7 @@
         <login />
     </div>
     <main class="main" v-else>
-        <Header :sidebar-is-open="sidebarOpen" :sidebar-toggle="sidebarToggle" />
+        <HeaderLayout :sidebar-is-open="sidebarOpen" :sidebar-toggle="sidebarToggle" />
         <div :class="sidebarOpen ? 'sidebarOpen' : 'sidebar'">
             <sidebar :user="user" v-if="user" />
         </div>
@@ -12,8 +12,8 @@
 </template>
 
 <script lang="ts">
+import { default as HeaderLayout } from '@/components/Header.vue';
 import Sidebar from '@/components/Sidebar.vue';
-import Header from '@/components/Header.vue';
 import MainContent from '@/components/MainContent.vue';
 import Login from '@/components/Login.vue';
 import BarsIcon from '@/assets/icons/bars.svg';
@@ -21,11 +21,12 @@ import { useAuthStore } from '@/stores';
 
 
 export default {
+    name: "home-view",
     components: {
         Sidebar,
         Login,
         MainContent,
-        Header,
+        HeaderLayout,
     },
     data() {
         return {
@@ -88,4 +89,5 @@ export default {
         z-index: 1000;
         max-width: 100%;
     }
-}</style>
+}
+</style>

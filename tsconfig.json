@@ -1,7 +1,10 @@
 {
   "files": [],
   "compilerOptions": {
-    "baseUrl": "./src"
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./"],
+    }
   },
   "references": [
     {

@@ -18,7 +18,7 @@ import { useAuthStore, useThemStore } from '@/stores';
 
 
 export default {
-    name:"login",
+    name:"auth-login",
     data() {
         return {
             error: null,
