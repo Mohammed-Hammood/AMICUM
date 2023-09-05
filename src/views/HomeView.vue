@@ -13,7 +13,6 @@
 import { default as HeaderLayout } from '@/components/Header.vue';
 import Sidebar from '@/components/Sidebar.vue';
 import MainContent from '@/components/MainContent.vue';
-import BarsIcon from '@/assets/icons/bars.svg';
 import Login from '@/components/Login.vue';
 import { useAuthStore } from '@/stores';
 
@@ -29,7 +28,6 @@ export default {
     data() {
         return {
             isSidebarOpen: false,
-            BarsIcon,
         }
     },
 
