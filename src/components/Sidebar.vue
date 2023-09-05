@@ -15,7 +15,7 @@
 			</div>
 			<div class="darkModeWrapper">
 				<button @click="modeToggle()" :class="theme" class="darkModeBtn">
-					<img :src="theme === 'dark' ? icons.SunIcon : icons.MoonIcon" alt="" class="darkModeImg" />
+					<sun-moon-icon :is-dark="theme === 'dark'" />
 				</button>
 			</div>
 			<div v-if="user" class="userPersonalInfoWrapper">
@@ -53,14 +53,12 @@
 
 <script lang="ts">
 import LogoutIcon from '@/assets/icons/logout-icon.svg';
-import MoonIcon from '@/assets/icons/moon.svg';
-import SunIcon from '@/assets/icons/sun.svg';
+import SunMoonIcon from '@/assets/icons/sun-moon.vue';
 import PenToPaperIcon from '@/assets/icons/pen-to-paper.svg';
 import PaperTestIcon from '@/assets/icons/paper-test.svg';
 import { useAuthStore, useThemStore } from '@/stores';
 import "vue3-circle-progress/dist/circle-progress.css";
 import CircleProgress from 'vue3-circle-progress';
-
 
 
 export default {
@@ -76,7 +74,8 @@ export default {
 		},
 	},
 	components: {
-		CircleProgress
+		CircleProgress,
+		SunMoonIcon
 	},
 	unmounted() {
 
@@ -90,8 +89,6 @@ export default {
 			time: `${this.format(new Date().getHours())}:${this.format(new Date().getMinutes())}`,
 			icons: {
 				LogoutIcon,
-				MoonIcon,
-				SunIcon,
 				PenToPaperIcon,
 			},
 			images: [
@@ -179,15 +176,15 @@ export default {
 			useThemStore().themeToggle()
 		},
 		// this function returns the correct single/plural word for the word day in Russian
-		dayWord(number:number):string {
-			const words = ['день', 'дня', 'дней'];	
-			
+		dayWord(number: number): string {
+			const words = ['день', 'дня', 'дней'];
+
 			let str = number.toString();
 			let len = str.length;
 
-			if(str[len - 1] === "1")return words[0];
-			if(str[len - 1] === "2" || str[len - 1] === "3" || str[len - 1] === "4")return words[1];
-			
+			if (str[len - 1] === "1") return words[0];
+			if (str[len - 1] === "2" || str[len - 1] === "3" || str[len - 1] === "4") return words[1];
+
 			return words[2];
 		}
 	}
@@ -280,13 +277,6 @@ export default {
 			margin: 0 13px;
 		}
 
-		.darkModeImg {
-			height: 35px;
-			width: 35px;
-			z-index: 1;
-			transform: rotate(223deg);
-		}
-
 		&:active {
 			transform: scale(1.01);
 		}
@@ -316,23 +306,27 @@ export default {
 		font-size: 14px;
 	}
 }
-.certificationAfterWrapper, .completedTextsWrapper {
+
+.certificationAfterWrapper,
+.completedTextsWrapper {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	line-height: 1;
+
 	.number {
 		font-size: 18px;
 		font-weight: 800;
-		padding:0;
-		margin:0;
+		padding: 0;
+		margin: 0;
 	}
+
 	.word {
 		font-size: 12px;
 		font-weight: 700;
 	}
-} 
+}
 
 .cardsWrapper {
 	display: grid;
@@ -412,5 +406,4 @@ export default {
 		z-index: 100;
 		max-width: 100%;
 	}
-}
-</style>
+}</style>

@@ -2,7 +2,7 @@
     <header class="header">
         <div class="buttonWrapper">
             <button type="button" @click="sidebarToggle()" class="burgurBtn">
-                <img :src="sidebarIsOpen ? BarsStaggeredIcon : BarsIcon" alt="" class="burgurImg" />
+                <bars-icon  :staggered="sidebarIsOpen"/>
             </button>
         </div>
         <div class="logoWrapper">
@@ -14,12 +14,14 @@
 </template>
 
 <script lang="ts">
-import BarsIcon from '@/assets/icons/bars.svg';
-import BarsStaggeredIcon from '@/assets/icons/bars-staggered.svg';
+import BarsIcon from '@/assets/icons/bars.vue';
 
 
 export default {
     name: "layout-header",
+    components: {
+        BarsIcon,
+    },
     props: {
         sidebarIsOpen: {
             type: Boolean,
@@ -30,12 +32,7 @@ export default {
             required: true,
         }
     },
-    data() {
-        return {
-            BarsIcon,
-            BarsStaggeredIcon,
-        }
-    },
+   
 }
 </script>
 
@@ -77,12 +74,6 @@ export default {
         @media (max-width: 950px) {
             display: flex;
         }
-    }
-
-    .burgurImg {
-        width: 20px;
-        height: 20px;
-        user-select: none;
     }
 }
 
