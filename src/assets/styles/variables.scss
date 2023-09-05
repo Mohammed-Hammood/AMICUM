@@ -1,0 +1,16 @@
+:root {
+    --base-white: #ffffff;
+    --color-text: #000;
+    --base-orange: #ef7f1b;
+    --main-color: #596c94;
+    --dark-blue: #323a53;
+    --light-blue: #9db2df;
+    --body-bg-color: #323a53;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --body-bg-color: #323a53;
+    }
+  }
+  
