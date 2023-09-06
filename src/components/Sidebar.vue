@@ -179,13 +179,15 @@ export default {
 		dayWord(number: number): string {
 			const words = ['день', 'дня', 'дней'];
 
-			let str = number.toString();
-			let len = str.length;
+			const str: string = number.toString();
+			const len: number = str.length;
+			const flag: boolean = len === 1 || str[len - 2] !== "1"; //to exclude numbers that have last two numbers 10 to 19 
 
-			if (str[len - 1] === "1") return words[0];
-			if (str[len - 1] === "2" || str[len - 1] === "3" || str[len - 1] === "4") return words[1];
+			if (str[len - 1] === "1" && flag) return words[0];
 
-			return words[2];
+			if (["2", "3", "4"].includes(str[len - 1]) && flag) return words[1];
+
+			return words[2]; // the rest will return дней
 		}
 	}
 }
@@ -406,4 +408,5 @@ export default {
 		z-index: 100;
 		max-width: 100%;
 	}
-}</style>
+}
+</style>
